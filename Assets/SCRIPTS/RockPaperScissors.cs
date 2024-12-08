@@ -1,8 +1,9 @@
+//~~~~ORIGINAL SCRIPT~~~~~~~~~~//
 //using System.Collections;
 //using System.Collections.Generic;
 //using UnityEngine;
 //using UnityEngine.UI;
-//using TMPro;
+
 //public class RockPaperScissors : MonoBehaviour
 //{
 //    public enum Move { Rock, Paper, Scissors }
@@ -15,8 +16,24 @@
 //    public Button paperButton;
 //    public Button scissorsButton;
 
-//    // To display the result
-//    public TextMeshProUGUI resultText;
+//    // Images to display player and AI moves
+//    public Image playerMoveImage;
+//    public Image aiMoveImage;
+//    public Image resultImage;
+
+//    // Images for Rock, Paper, Scissors, Win, Lose, Draw
+//    public Sprite rockSprite;
+//    public Sprite paperSprite;
+//    public Sprite scissorsSprite;
+//    public Sprite winSprite;
+//    public Sprite loseSprite;
+//    public Sprite drawSprite;
+
+//    // Delay time
+//    public float moveDelay = 1f; // Delay in seconds
+
+//    // Waiting text and button lock
+//    public Text waitingText;
 
 //    void Start()
 //    {
@@ -37,24 +54,87 @@
 //        };
 
 //        // Assign button listeners
-//        rockButton.onClick.AddListener(() => Play(Move.Rock));
-//        paperButton.onClick.AddListener(() => Play(Move.Paper));
-//        scissorsButton.onClick.AddListener(() => Play(Move.Scissors));
+//        rockButton.onClick.AddListener(() => StartCoroutine(PlayWithDelay(Move.Rock)));
+//        paperButton.onClick.AddListener(() => StartCoroutine(PlayWithDelay(Move.Paper)));
+//        scissorsButton.onClick.AddListener(() => StartCoroutine(PlayWithDelay(Move.Scissors)));
+
+//        // Initially hide waiting text
+//        waitingText.gameObject.SetActive(false);
 //    }
 
-//    // Function to simulate player vs AI move
-//    public void Play(Move playerMove)
+//    // Function to simulate player vs AI move with delay
+//    private IEnumerator PlayWithDelay(Move playerMove)
 //    {
+//        // Disable buttons to prevent further input
+//        rockButton.interactable = false;
+//        paperButton.interactable = false;
+//        scissorsButton.interactable = false;
+
+//        // Display the player's move immediately
+//        playerMoveImage.sprite = GetMoveSprite(playerMove);
+
+//        // Show the waiting message
+//        waitingText.gameObject.SetActive(true);
+//        waitingText.text = "Please wait for AI's move...";
+
+//        // Wait for a brief moment (this is the delay)
+//        yield return new WaitForSeconds(moveDelay);
+
 //        // AI makes a random move
 //        Move aiMove = (Move)Random.Range(0, 3);
 
 //        // Get the result from the dictionary
 //        string result = gameResults[(playerMove, aiMove)];
 
-//        // Display the result
-//        resultText.text = $"Player chose: {playerMove}\nAI chose: {aiMove}\nResult: {result}";
+//        // Set the AI's move image
+//        aiMoveImage.sprite = GetMoveSprite(aiMove);
+
+//        // Set the result image
+//        resultImage.sprite = GetResultSprite(result);
+
+//        // Show the result message
+//        waitingText.text = result;
+
+//        // Re-enable buttons after a short delay
+//        yield return new WaitForSeconds(1f);  // Additional delay to show the result
+//        rockButton.interactable = true;
+//        paperButton.interactable = true;
+//        scissorsButton.interactable = true;
+
+//        // Hide the waiting message
+//        waitingText.gameObject.SetActive(false);
+//    }
+
+//    // Function to get the sprite for each move
+//    private Sprite GetMoveSprite(Move move)
+//    {
+//        switch (move)
+//        {
+//            case Move.Rock: return rockSprite;
+//            case Move.Paper: return paperSprite;
+//            case Move.Scissors: return scissorsSprite;
+//            default: return null;
+//        }
+//    }
+
+//    // Function to get the result sprite (Win, Lose, Draw)
+//    private Sprite GetResultSprite(string result)
+//    {
+//        if (result.Contains("Win"))
+//        {
+//            return winSprite;
+//        }
+//        else if (result.Contains("Lose"))
+//        {
+//            return loseSprite;
+//        }
+//        else
+//        {
+//            return drawSprite;
+//        }
 //    }
 //}
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -80,18 +160,17 @@ public class RockPaperScissors : MonoBehaviour
     [SerializeField] Sprite rockSprite;
     [SerializeField] Sprite paperSprite;
     [SerializeField] Sprite scissorsSprite;
-    [SerializeField] Sprite winSprite;
-    [SerializeField] Sprite loseSprite;
-    [SerializeField] Sprite drawSprite;
 
     [Header("TEXT DISPLAY")]
     [SerializeField] private float moveDelay; // Delay in seconds
     [SerializeField] private TextMeshProUGUI waitingText;
     [SerializeField] GameObject LoadingObject;
+    public ScoreManager scoreManager;
+    public LifeManager lifeManager;
 
     void Start()
     {
-       
+       LoadingObject.SetActive(false);
         gameResults = new Dictionary<(Move, Move), string>
         {
             { (Move.Rock, Move.Rock), "Draw" },
@@ -145,7 +224,16 @@ public class RockPaperScissors : MonoBehaviour
 
         // Set the result message in the waiting text
         waitingText.text = result;
-
+        if (result.Contains("You Win"))
+        {
+            scoreManager.UpdatePlayerScore(); // Player wins
+            lifeManager.LoseAILife();
+        }
+        else if (result.Contains("You Lose"))
+        {
+            scoreManager.UpdateAIScore(); // AI wins
+            lifeManager.LosePlayerLife(); // Player loses a life
+        }
         // Re-enable buttons after a short delay
         yield return new WaitForSeconds(1f);  // Additional delay to show the result
         rockButton.interactable = true;
