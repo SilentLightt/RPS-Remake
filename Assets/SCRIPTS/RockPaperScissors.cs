@@ -84,8 +84,10 @@ public class RockPaperScissors : MonoBehaviour
     [SerializeField] Sprite loseSprite;
     [SerializeField] Sprite drawSprite;
 
-    public float moveDelay = 1f; // Delay in seconds
-    public TextMeshProUGUI waitingText;
+    [Header("TEXT DISPLAY")]
+    [SerializeField] private float moveDelay; // Delay in seconds
+    [SerializeField] private TextMeshProUGUI waitingText;
+    [SerializeField] GameObject LoadingObject;
 
     void Start()
     {
@@ -126,6 +128,7 @@ public class RockPaperScissors : MonoBehaviour
 
         // Show the waiting message
         waitingText.gameObject.SetActive(true);
+        LoadingObject.gameObject.SetActive(true);
         waitingText.text = "Please wait for AI's move...";
 
         // Wait for a brief moment (this is the delay)
@@ -140,10 +143,7 @@ public class RockPaperScissors : MonoBehaviour
         // Set the AI's move image
         aiMoveImage.sprite = GetMoveSprite(aiMove);
 
-        // Set the result image
-        resultImage.sprite = GetResultSprite(result);
-
-        // Show the result message
+        // Set the result message in the waiting text
         waitingText.text = result;
 
         // Re-enable buttons after a short delay
@@ -154,6 +154,8 @@ public class RockPaperScissors : MonoBehaviour
 
         // Hide the waiting message
         waitingText.gameObject.SetActive(false);
+        LoadingObject.gameObject.SetActive(false);
+
     }
 
     // Function to get the sprite for each move
@@ -165,23 +167,6 @@ public class RockPaperScissors : MonoBehaviour
             case Move.Paper: return paperSprite;
             case Move.Scissors: return scissorsSprite;
             default: return null;
-        }
-    }
-
-    // Function to get the result sprite (Win, Lose, Draw)
-    private Sprite GetResultSprite(string result)
-    {
-        if (result.Contains("Win"))
-        {
-            return winSprite;
-        }
-        else if (result.Contains("Lose"))
-        {
-            return loseSprite;
-        }
-        else
-        {
-            return drawSprite;
         }
     }
 }
