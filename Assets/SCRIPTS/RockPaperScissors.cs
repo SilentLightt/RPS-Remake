@@ -145,26 +145,28 @@ public class RockPaperScissors : MonoBehaviour
     public enum Move { Rock, Paper, Scissors }
 
     private Dictionary<(Move, Move), string> gameResults;
-    
+
     [Header("BUTTONS MANAGER")]
     [SerializeField] Button rockButton;
     [SerializeField] Button paperButton;
     [SerializeField] Button scissorsButton;
-    
+
     [Header("IMAGE DISPLAY")]
     [SerializeField] Image playerMoveImage;
     [SerializeField] Image aiMoveImage;
     [SerializeField] Image resultImage;
-    
+
     [Header("SPRITE DISPLAY")]
     [SerializeField] Sprite rockSprite;
     [SerializeField] Sprite paperSprite;
     [SerializeField] Sprite scissorsSprite;
 
     [Header("TEXT DISPLAY")]
-    [SerializeField] private float moveDelay; // Delay in seconds
+    [SerializeField] private float moveDelay;
     [SerializeField] private TextMeshProUGUI waitingText;
     [SerializeField] GameObject LoadingObject;
+
+    [Header("GAME MANAGERS")]
     public ScoreManager scoreManager;
     public LifeManager lifeManager;
 
@@ -194,59 +196,51 @@ public class RockPaperScissors : MonoBehaviour
 
     }
 
-
     private IEnumerator PlayWithDelay(Move playerMove)
     {
-        // Disable buttons to prevent further input
         rockButton.interactable = false;
         paperButton.interactable = false;
         scissorsButton.interactable = false;
 
-        // Display the player's move immediately
         playerMoveImage.sprite = GetMoveSprite(playerMove);
 
-        // Show the waiting message
         waitingText.gameObject.SetActive(true);
         LoadingObject.gameObject.SetActive(true);
         waitingText.text = "Please wait for AI's move...";
 
-        // Wait for a brief moment (this is the delay)
         yield return new WaitForSeconds(moveDelay);
 
-        // AI makes a random move
         Move aiMove = (Move)Random.Range(0, 3);
-
-        // Get the result from the dictionary
         string result = gameResults[(playerMove, aiMove)];
 
-        // Set the AI's move image
         aiMoveImage.sprite = GetMoveSprite(aiMove);
 
-        // Set the result message in the waiting text
         waitingText.text = result;
+
         if (result.Contains("You Win"))
         {
-            scoreManager.UpdatePlayerScore(); // Player wins
+            scoreManager.UpdatePlayerScore();
             lifeManager.LoseAILife();
         }
         else if (result.Contains("You Lose"))
         {
-            scoreManager.UpdateAIScore(); // AI wins
-            lifeManager.LosePlayerLife(); // Player loses a life
+            scoreManager.UpdateAIScore();
+            lifeManager.LosePlayerLife();
         }
-        // Re-enable buttons after a short delay
-        yield return new WaitForSeconds(1f);  // Additional delay to show the result
+
+        // Increment the round number regardless of the result (win, lose, draw)
+        scoreManager.NextRound();  // Increment the round
+
+        yield return new WaitForSeconds(1f);
+
         rockButton.interactable = true;
         paperButton.interactable = true;
         scissorsButton.interactable = true;
 
-        // Hide the waiting message
         waitingText.gameObject.SetActive(false);
         LoadingObject.gameObject.SetActive(false);
-
     }
 
-    // Function to get the sprite for each move
     private Sprite GetMoveSprite(Move move)
     {
         switch (move)
