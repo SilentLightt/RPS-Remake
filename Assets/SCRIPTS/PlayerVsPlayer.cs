@@ -42,7 +42,7 @@ public class PlayerVsPlayer : MonoBehaviour
     private bool isPlayerOneTurn = true; 
     private Move playerOneMove;
     private Move playerTwoMove;
-    private Move playerOneStoredMove; // Store Player 1's original move
+    private Move playerOneStoredMove; 
 
     void Start()
     {
@@ -78,12 +78,12 @@ public class PlayerVsPlayer : MonoBehaviour
         if (player == 1 && isPlayerOneTurn)
         {
             playerOneMove = move;
-            playerOneStoredMove = move; // Store Player 1's original move
-            playerOneMoveImage.sprite = questionMarkSprite; // Show question mark for Player 1's move
+            playerOneStoredMove = move; 
+            playerOneMoveImage.sprite = questionMarkSprite; 
             waitingText.text = "Player 2's Turn...";
-            waitingText.gameObject.SetActive(true); // Show waiting text for Player 2's move
-            loadingObject.SetActive(true); // Show loading object for Player 2's move
-            LockPlayerButtons(true); // Lock Player 1's buttons
+            waitingText.gameObject.SetActive(true); 
+            loadingObject.SetActive(true); 
+            LockPlayerButtons(true); 
             isPlayerOneTurn = false;
         }
         else if (player == 2 && !isPlayerOneTurn)
@@ -97,12 +97,10 @@ public class PlayerVsPlayer : MonoBehaviour
 
     private void LockPlayerButtons(bool isLocked)
     {
-        // Lock or unlock Player 1 buttons
         rockButton.interactable = !isLocked;
         paperButton.interactable = !isLocked;
         scissorsButton.interactable = !isLocked;
 
-        // Lock or unlock Player 2 buttons
         rockButtonPlayer2.interactable = isLocked;
         paperButtonPlayer2.interactable = isLocked;
         scissorsButtonPlayer2.interactable = isLocked;
@@ -127,7 +125,6 @@ public class PlayerVsPlayer : MonoBehaviour
         }
         playerOneMoveImage.sprite = GetMoveSprite(playerOneStoredMove); // Use the stored move
 
-        // Increment the round number regardless of the result (win, lose, draw)
         scoreManager.NextRound();
 
         yield return new WaitForSeconds(1f);

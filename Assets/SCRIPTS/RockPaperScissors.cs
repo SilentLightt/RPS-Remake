@@ -228,8 +228,7 @@ public class RockPaperScissors : MonoBehaviour
             lifeManager.LosePlayerLife();
         }
 
-        // Increment the round number regardless of the result (win, lose, draw)
-        scoreManager.NextRound();  // Increment the round
+        scoreManager.NextRound();  
 
         yield return new WaitForSeconds(1f);
 

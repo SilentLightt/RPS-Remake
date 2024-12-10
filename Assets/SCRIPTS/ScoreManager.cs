@@ -16,12 +16,12 @@ public class ScoreManager : MonoBehaviour
     public TextMeshProUGUI aiScoreText;
     public TextMeshProUGUI roundText; // Round display
 
-    [Header("GAME OVER PANEL")]
+    [Header("GAME OVER")]
     public TextMeshProUGUI gameOverPlayerScoreText;
     public TextMeshProUGUI gameOverAIScoreText;
     public TextMeshProUGUI gameOverRoundText;
 
-    [Header("WIN PANEL")]
+    [Header("WIN")]
     public TextMeshProUGUI winPlayerScoreText;
     public TextMeshProUGUI winAIScoreText;
     public TextMeshProUGUI winRoundText;

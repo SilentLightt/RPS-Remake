@@ -97,8 +97,8 @@ public class LifeManager : MonoBehaviour
 
     private void GameOver()
     {
-        WinPanel.SetActive(false);  // Hide win panel
-        GameOverPanel.SetActive(true);  // Show game over panel
+        WinPanel.SetActive(false);  
+        GameOverPanel.SetActive(true);
         gameOverText.gameObject.SetActive(true);
 
         scoreManager.gameOverRoundText.text = "Round: " + scoreManager.GetCurrentRound();  
