@@ -28,6 +28,7 @@ public class PlayerVsPlayer : MonoBehaviour
     [SerializeField] Sprite rockSprite;
     [SerializeField] Sprite paperSprite;
     [SerializeField] Sprite scissorsSprite;
+    [SerializeField] Sprite questionMarkSprite;
 
     [Header("TEXT DISPLAY")]
     [SerializeField] private float moveDelay;
@@ -38,9 +39,10 @@ public class PlayerVsPlayer : MonoBehaviour
     public ScoreManager scoreManager;
     public LifeManager lifeManager;
 
-    private bool isPlayerOneTurn = true; // Track whose turn it is
+    private bool isPlayerOneTurn = true; 
     private Move playerOneMove;
     private Move playerTwoMove;
+    private Move playerOneStoredMove; // Store Player 1's original move
 
     void Start()
     {
@@ -76,7 +78,8 @@ public class PlayerVsPlayer : MonoBehaviour
         if (player == 1 && isPlayerOneTurn)
         {
             playerOneMove = move;
-            playerOneMoveImage.sprite = GetMoveSprite(move);
+            playerOneStoredMove = move; // Store Player 1's original move
+            playerOneMoveImage.sprite = questionMarkSprite; // Show question mark for Player 1's move
             waitingText.text = "Player 2's Turn...";
             waitingText.gameObject.SetActive(true); // Show waiting text for Player 2's move
             loadingObject.SetActive(true); // Show loading object for Player 2's move
@@ -122,6 +125,7 @@ public class PlayerVsPlayer : MonoBehaviour
             scoreManager.UpdateAIScore();
             lifeManager.LosePlayerLife();
         }
+        playerOneMoveImage.sprite = GetMoveSprite(playerOneStoredMove); // Use the stored move
 
         // Increment the round number regardless of the result (win, lose, draw)
         scoreManager.NextRound();
@@ -138,7 +142,10 @@ public class PlayerVsPlayer : MonoBehaviour
 
         // Unlock buttons for Player 1's next turn
         LockPlayerButtons(false);
+
+        // Show Player 1's actual move after the round is finished
     }
+
 
     private Sprite GetMoveSprite(Move move)
     {
