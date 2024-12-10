@@ -1050,6 +1050,7 @@ MonoBehaviour:
   winPlayerScoreText: {fileID: 1525650154}
   winAIScoreText: {fileID: 933822057}
   winRoundText: {fileID: 2123794640}
+  currentGameMode: 1
 --- !u!1 &107517281
 GameObject:
   m_ObjectHideFlags: 0
@@ -9128,6 +9129,7 @@ MonoBehaviour:
   wintext: {fileID: 741832679}
   GameOverPanel: {fileID: 1525617505}
   WinPanel: {fileID: 1117927392}
+  currentGameMode: 1
 --- !u!1 &1368516093
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,9 +1,11 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+
 public class LifeManager : MonoBehaviour
 {
+    public enum GameMode { PlayerVsPlayer, PlayerVsAI }
+
     [SerializeField] int totalLives;
     private int currentLives;
     private int currentAILives;
@@ -12,12 +14,16 @@ public class LifeManager : MonoBehaviour
     [SerializeField] Image[] aiLifeIcons;
 
     [SerializeField] ScoreManager scoreManager;
+
     [Header("Win/Lose Condition")]
     [SerializeField] TextMeshProUGUI gameOverText;
     [SerializeField] TextMeshProUGUI wintext;
 
     [SerializeField] GameObject GameOverPanel;
     [SerializeField] GameObject WinPanel;
+
+    [Header("Game Mode")]
+    [SerializeField] GameMode currentGameMode;
 
     void Start()
     {
@@ -29,26 +35,50 @@ public class LifeManager : MonoBehaviour
         UpdateLifeDisplay();
     }
 
-
     public void LosePlayerLife()
     {
-        currentLives--;
-
-        UpdateLifeDisplay();
-
-        if (currentLives <= 0)
+        if (currentGameMode == GameMode.PlayerVsAI)
         {
-            GameOver();
+            currentLives--;
+            UpdateLifeDisplay();
+
+            if (currentLives <= 0)
+            {
+                GameOver();
+            }
+        }
+        else if (currentGameMode == GameMode.PlayerVsPlayer)
+        {
+            currentLives--;
+            UpdateLifeDisplay();
+            if (currentLives <= 0)
+            {
+                GameOver();
+            }
         }
     }
+
     public void LoseAILife()
     {
-        currentAILives--;
-        UpdateLifeDisplay();
-
-        if (currentAILives <= 0)
+        if (currentGameMode == GameMode.PlayerVsAI)
         {
-            WinGame("AI Lost All Its Lives. You Win!");
+            currentAILives--;
+            UpdateLifeDisplay();
+
+            if (currentAILives <= 0)
+            {
+                WinGame("AI Lost All Its Lives. You Win!");
+            }
+        }
+        else if (currentGameMode == GameMode.PlayerVsPlayer)
+        {
+            currentAILives--;
+            UpdateLifeDisplay();
+
+            if (currentAILives <= 0)
+            {
+                WinGame("Player 2 Lost All Its Lives. Player 1 Wins!");
+            }
         }
     }
 
@@ -63,7 +93,7 @@ public class LifeManager : MonoBehaviour
         int totalIcons = lifeIconsArray.Length;
         float livesPerIcon = (float)totalLives / totalIcons;
 
-        int remainingLives = currentLives; 
+        int remainingLives = currentLives;
 
         for (int i = 0; i < totalIcons; i++)
         {
@@ -82,26 +112,25 @@ public class LifeManager : MonoBehaviour
         }
     }
 
-
     private void WinGame(string message)
     {
-        gameOverText.gameObject.SetActive(false);  
+        gameOverText.gameObject.SetActive(false);
         wintext.gameObject.SetActive(true);
-        WinPanel.SetActive(true); 
+        WinPanel.SetActive(true);
 
         scoreManager.winPlayerScoreText.text = "Player: " + scoreManager.GetCurrentPlayerScore();
         scoreManager.winAIScoreText.text = "AI: " + scoreManager.GetCurrentAiScore();
-        scoreManager.winRoundText.text = "Round: " + scoreManager.GetCurrentRound();  
+        scoreManager.winRoundText.text = "Round: " + scoreManager.GetCurrentRound();
         wintext.text = message;
     }
 
     private void GameOver()
     {
-        WinPanel.SetActive(false);  
+        WinPanel.SetActive(false);
         GameOverPanel.SetActive(true);
         gameOverText.gameObject.SetActive(true);
 
-        scoreManager.gameOverRoundText.text = "Round: " + scoreManager.GetCurrentRound();  
+        scoreManager.gameOverRoundText.text = "Round: " + scoreManager.GetCurrentRound();
         scoreManager.gameOverPlayerScoreText.text = "Player: " + scoreManager.GetCurrentPlayerScore();
         scoreManager.gameOverAIScoreText.text = "AI: " + scoreManager.GetCurrentAiScore();
 
