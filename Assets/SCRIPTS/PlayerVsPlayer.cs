@@ -120,7 +120,7 @@ public class PlayerVsPlayer : MonoBehaviour
         }
         else if (result.Contains("Player 2 Wins"))
         {
-            scoreManager.UpdateAIScore();
+            scoreManager.UpdatePlayer2Score();
             lifeManager.LosePlayerLife();
         }
         playerOneMoveImage.sprite = GetMoveSprite(playerOneStoredMove); // Use the stored move

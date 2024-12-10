@@ -5,6 +5,7 @@ using TMPro;
 public class LifeManager : MonoBehaviour
 {
     public enum GameMode { PlayerVsPlayer, PlayerVsAI }
+    [Header("Health Manager")]
 
     [SerializeField] int totalLives;
     private int currentLives;
@@ -44,7 +45,7 @@ public class LifeManager : MonoBehaviour
 
             if (currentLives <= 0)
             {
-                GameOver();
+                GameOver("Player Lost All Its Lives. You Lose.");
             }
         }
         else if (currentGameMode == GameMode.PlayerVsPlayer)
@@ -53,7 +54,7 @@ public class LifeManager : MonoBehaviour
             UpdateLifeDisplay();
             if (currentLives <= 0)
             {
-                GameOver();
+                GameOver("Player 1 Lost All Its Lives. Player 2 Wins!");
             }
         }
     }
@@ -69,6 +70,7 @@ public class LifeManager : MonoBehaviour
             {
                 WinGame("AI Lost All Its Lives. You Win!");
             }
+           
         }
         else if (currentGameMode == GameMode.PlayerVsPlayer)
         {
@@ -121,10 +123,12 @@ public class LifeManager : MonoBehaviour
         scoreManager.winPlayerScoreText.text = "Player: " + scoreManager.GetCurrentPlayerScore();
         scoreManager.winAIScoreText.text = "AI: " + scoreManager.GetCurrentAiScore();
         scoreManager.winRoundText.text = "Round: " + scoreManager.GetCurrentRound();
+
+        scoreManager.winAIScoreText.text = "Player 2: " + scoreManager.GetCurrentPlayer2Score();
         wintext.text = message;
     }
 
-    private void GameOver()
+    private void GameOver(string message)
     {
         WinPanel.SetActive(false);
         GameOverPanel.SetActive(true);
@@ -134,6 +138,7 @@ public class LifeManager : MonoBehaviour
         scoreManager.gameOverPlayerScoreText.text = "Player: " + scoreManager.GetCurrentPlayerScore();
         scoreManager.gameOverAIScoreText.text = "AI: " + scoreManager.GetCurrentAiScore();
 
-        gameOverText.text = "Game Over! You Lost All Your Lives!";
+        scoreManager.gameOverAIScoreText.text = "Player 2: " + scoreManager.GetCurrentPlayer2Score();
+        gameOverText.text = message;
     }
 }
