@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 742501}
   - component: {fileID: 742500}
   m_Layer: 5
-  m_Name: RockButton
+  m_Name: RockButtonPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -630,7 +630,7 @@ GameObject:
   - component: {fileID: 44786757}
   - component: {fileID: 44786756}
   m_Layer: 5
-  m_Name: ScissorButton
+  m_Name: ScissorButtonPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2175,7 +2175,7 @@ GameObject:
   - component: {fileID: 328487978}
   - component: {fileID: 328487977}
   m_Layer: 5
-  m_Name: ScissorButton
+  m_Name: ScissorButtonEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4630,7 +4630,7 @@ GameObject:
   - component: {fileID: 830088938}
   - component: {fileID: 830088937}
   m_Layer: 5
-  m_Name: PaperButton
+  m_Name: PaperButtonPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5863,7 +5863,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 966630749}
-  - component: {fileID: 966630748}
+  - component: {fileID: 966630750}
   m_Layer: 0
   m_Name: RPSMANAGER
   m_TagString: Untagged
@@ -5871,32 +5871,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &966630748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 966630747}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ef8b93c749344246b51c7e7738bb409, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rockButton: {fileID: 742500}
-  paperButton: {fileID: 830088937}
-  scissorsButton: {fileID: 44786756}
-  playerMoveImage: {fileID: 1999558671}
-  aiMoveImage: {fileID: 1564794438}
-  resultImage: {fileID: 1683425200}
-  rockSprite: {fileID: 21300000, guid: f10a3f38113c0994a93a95fee6cc4460, type: 3}
-  paperSprite: {fileID: 21300000, guid: 8710a794c033e0844bab6068afe0ba92, type: 3}
-  scissorsSprite: {fileID: 21300000, guid: 9d5166329260f04468851a4180dc2ce9, type: 3}
-  moveDelay: 1
-  waitingText: {fileID: 19490339}
-  LoadingObject: {fileID: 1299444362}
-  scoreManager: {fileID: 93297815}
-  lifeManager: {fileID: 1350927960}
 --- !u!4 &966630749
 Transform:
   m_ObjectHideFlags: 0
@@ -5912,6 +5886,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &966630750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 966630747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ae70dd3195ccdf4092f2be4f5253fe8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rockButton: {fileID: 742500}
+  paperButton: {fileID: 830088937}
+  scissorsButton: {fileID: 44786756}
+  rockButtonPlayer2: {fileID: 1566320575}
+  paperButtonPlayer2: {fileID: 1504888815}
+  scissorsButtonPlayer2: {fileID: 328487977}
+  playerOneMoveImage: {fileID: 1999558671}
+  playerTwoMoveImage: {fileID: 1564794438}
+  resultImage: {fileID: 1683425200}
+  rockSprite: {fileID: 21300000, guid: f10a3f38113c0994a93a95fee6cc4460, type: 3}
+  paperSprite: {fileID: 21300000, guid: 8710a794c033e0844bab6068afe0ba92, type: 3}
+  scissorsSprite: {fileID: 21300000, guid: 9d5166329260f04468851a4180dc2ce9, type: 3}
+  moveDelay: 0
+  waitingText: {fileID: 19490339}
+  loadingObject: {fileID: 1299444362}
+  scoreManager: {fileID: 93297815}
+  lifeManager: {fileID: 1350927960}
 --- !u!1 &991601614
 GameObject:
   m_ObjectHideFlags: 0
@@ -10573,7 +10576,7 @@ GameObject:
   - component: {fileID: 1504888816}
   - component: {fileID: 1504888815}
   m_Layer: 5
-  m_Name: PaperButton
+  m_Name: PaperButtonEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11413,7 +11416,7 @@ GameObject:
   - component: {fileID: 1566320576}
   - component: {fileID: 1566320575}
   m_Layer: 5
-  m_Name: RockButton
+  m_Name: RockButtonEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
